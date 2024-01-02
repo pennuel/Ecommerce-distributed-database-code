@@ -1,6 +1,6 @@
-#Ecommerce Distributed database Assignment
+# Ecommerce Distributed database Assignment
 
-##the assignment question
+## the assignment question
 create a distributed heterogeneous database environment
 comprising three sites with three different participating database platforms,
 and at least two different operating systems.
