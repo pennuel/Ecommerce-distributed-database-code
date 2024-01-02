@@ -1,54 +1,14 @@
 import psycopg2
 import pymysql
 
-from db.connect import connect_mariadb, connect_postgresql, connect_mysql
+from db.dbconnect.connect import connect_mariadb, connect_postgresql, connect_mysql
 from db.product_test import product_details
 
-
-# Function to fetch data from PostgreSQL
-def fetch_postgresql_data():
-
-
-    conn = connect_postgresql()
-    cursor = conn.cursor()
-
-    query = """
-        SELECT c.region, COUNT(o.order_id) AS total_orders
-        FROM products_electronics pe
-        JOIN orders_nairobi o ON pe.product_id = o.product_id
-        JOIN customers_nairobi c ON o.customer_id = c.customer_id
-        GROUP BY c.region;
-    """
-    cursor.execute(query)
-    result = cursor.fetchall()
-
-    cursor.close()
-    conn.close()
-
-    return result
-
-# Function to fetch data from MariaDB
-def fetch_mariadb_data():
-
-
-    conn = connect_mariadb()
-    cursor = conn.cursor()
-
-    query = """
-        SELECT c.region, COUNT(o.order_id) AS total_orders
-        FROM orders_mombasa o
-        JOIN customers_mombasa c ON o.customer_id = c.customer_id
-        GROUP BY c.region;
-    """
-    cursor.execute(query)
-    result = cursor.fetchall()
-
-    cursor.close()
-    conn.close()
-
-    return result
-
 def create_customer_report():
+    """
+    This function connects to the databases and queries them to create the customer order summary report
+    :return: prints the report in the command line
+    """
     # Connect to MySQL to retrieve customer data
     mysql_connection = connect_mysql()
     if mysql_connection:
@@ -120,18 +80,3 @@ def create_customer_report():
         finally:
             mysql_cursor.close()
             mysql_connection.close()
-
-
-
-create_customer_report()
-
-# # Combine and process the data
-# postgresql_data = fetch_postgresql_data()
-# mariadb_data = fetch_mariadb_data()
-#
-# # Print the report
-# print("Customer Orders Summary by Region:")
-# print("Region\t\tTotal Orders")
-#
-# for region, total_orders in postgresql_data + mariadb_data:
-#     print(f"{region}\t\t{total_orders}")
