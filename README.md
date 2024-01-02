@@ -35,8 +35,9 @@ The reports generated were:
 
 it was heavy assignment but with GOOD problem solving skills it was finished.
 
-#Modifications
+# Modifications
 i used python config module to create a config file for the database connection information.
+I want to clean up the logic, and remove any stray variables.
 
 
 
