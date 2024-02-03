@@ -20,7 +20,7 @@ def create_sales_by_payment_per_region_report():
 
     # Loop through each region
     for region in regions:
-        print(f"Sales By Payment for {region}")
+        print(f"\nSales By Payment for {region}")
         # Connect to PostgreSQL to retrieve products from category tables
         post_connection = connect_postgresql()
         product_categories = ['electronics', 'clothing']
@@ -37,9 +37,8 @@ def create_sales_by_payment_per_region_report():
                     post_cursor.execute(sql)
                     products = post_cursor.fetchall()
 
-                    # Counter to keep track of products
-                    count = 0
 
+                    print(f"\n{product_category}")
                     # Loop through each product
                     for product in products:
                         # Variable initialization
@@ -52,10 +51,10 @@ def create_sales_by_payment_per_region_report():
 
                         # Unpack product details
                         product_id, product_name, category, _ = product
-                        count += 1
+
 
                         # Print product header
-                        print(f"Product {count}")
+                        print(f"\n\tProduct: {product_name}")
 
                         # Connect to MariaDB to retrieve order details
                         mariadb_connection = connect_mariadb()
@@ -91,11 +90,13 @@ def create_sales_by_payment_per_region_report():
                                         total_credit_quantity += credit_quantity
 
                                 # Print the report for credit card payments
+                                print("\tcredit card payments")
                                 print(
-                                    f" {product_details(product_id, product_category)} total order: {credit_order}, Quantity: {total_credit_quantity}, payment: Credit, Amount: {total_payment_credit}")
+                                    f"\t   {product_details(product_id, product_category)} total order: {credit_order}, Quantity: {total_credit_quantity}, payment: Credit, Amount: {total_payment_credit}")
 
                                 # Loop through the order list again to calculate the total amount per Paypal system
                                 # and the total quantity
+
                                 for order_id, paypal_quantity in orders_id:
                                     # SQL query to get payment amount from Paypal payments
                                     sql_payments_paypal = (
@@ -113,8 +114,9 @@ def create_sales_by_payment_per_region_report():
                                         total_paypal_quantity += paypal_quantity
 
                                 # Print the report for Paypal payments
+                                print("\tpaypal payments")
                                 print(
-                                    f" {product_details(product_id, product_category)} total order: {paypal_order}, Quantity: {total_paypal_quantity}, payment: Paypal, Amount: {total_payment_paypal}")
+                                    f"\t   {product_details(product_id, product_category)} total order: {paypal_order}, Quantity: {total_paypal_quantity}, payment: Paypal, Amount: {total_payment_paypal}")
 
                             except pymysql.Error as e:
                                 print(f"Mariadb Error: {e}")
@@ -124,7 +126,7 @@ def create_sales_by_payment_per_region_report():
                                 mariadb_connection.close()
 
                     # Print a message indicating the completion of the current product category
-                    print(f'Finished {product_category} category')
+                    # print(f'Finished {product_category} category\n')
 
             except psycopg2.Error as e:
                 print(f"PostgreSQL Error: {e}")

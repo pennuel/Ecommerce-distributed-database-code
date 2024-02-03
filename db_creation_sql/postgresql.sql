@@ -1,4 +1,4 @@
--- Vertically fragmented products tables
+-- horizontally fragmented products tables
 CREATE TABLE products_electronics (
     product_id INT PRIMARY KEY,
     product_name VARCHAR(255),
@@ -20,4 +20,4 @@ INSERT INTO products_electronics (product_id, product_name, category, price) VAL
 
 INSERT INTO products_clothing (product_id, product_name, category, price) VALUES
 (201, 'T-Shirt', 'Clothing', 250),
-(202, 'Jeans', 'Clo
+(202, 'Jeans', 'Clothings', 500)
